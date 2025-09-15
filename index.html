@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang = "en">
+    <object data="../utils.html"></object>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>BLE Test PWA</title>
+    </head>
+    <body>
+        <header class="page-header">
+            <h1 class="page-title">Web App to Enable BLE Configuration for Drive 2.0</h1>
+        </header>
+        <div id="status">Status: <span id="statusText">Checking Web Bluetooth...</span></div>
+        <button id="connectButton">Scan for Drive 2.0 BLE</button>
+        <div id="characteristics"></div>
+        <button id="updateList">Update Char Dropdown</button>
+        <div id="writeSection">
+        <h2>Write to Characteristic</h2>
+            <select id="writeCharacteristicSelect">
+                <option value="">Select a writable characteristic</option>
+            </select>
+            <input type="text" id="writeInput" placeholder="Enter value to write">
+            <button id="writeButton">Write Value</button>
+        </div>
+
+        <script src="js/dev-info-app.js"></script>
+        <script>
+                const statusText = document.getElementById('statusText');
+                const connectButton = document.getElementById('connectButton');
+                const characteristicsDiv = document.getElementById('characteristics');
+                const writeInput = document.getElementById('writeInput');
+                const writeButton = document.getElementById('writeButton');
+                const writeCharacteristicSelect = document.getElementById('writeCharacteristicSelect');
+                const updateList = document.getElementById('updateList');
+                //make serviceList global
+                let serviceList = []
+
+                if (isWebBluetoothEnabled()) {
+                    statusText.textContent = 'Web Bluetooth is enabled.';
+                } else {
+                    statusText.textContent = 'Web Bluetooth is not available.';
+                    connectButton.disabled = true;
+                }
+
+                connectButton.addEventListener('click', onButtonClick);
+                writeButton.addEventListener('click', writeToCharacteristic);
+                updateList.addEventListener('click', addCharOptions);
+        </script>
+    </body>
+</html>
