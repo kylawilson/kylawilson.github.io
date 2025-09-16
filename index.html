@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang = "en">
     <object data="../utils.html"></object>
@@ -16,15 +15,24 @@
         <div id="characteristics"></div>
         <button id="updateList">Update Char Dropdown</button>
         <div id="writeSection">
-        <h2>Write to Characteristic</h2>
+            <h2>Write to Characteristic</h2>
             <select id="writeCharacteristicSelect">
                 <option value="">Select a writable characteristic</option>
             </select>
             <input type="text" id="writeInput" placeholder="Enter value to write">
             <button id="writeButton">Write Value</button>
         </div>
+        <div id="selectRegion">
+            <h2 id="regionSelectHeader">REGION</h2>
+            <select id="regionSelect">
+                <option value="1">US/CANADA</option>
+                <option value="2">JAPAN</option>
+                <option value="3">REST OF THE WORLD</option>
+            </select>
+            <button id="selectRegionButton">Select Region</button>
+        </div>
 
-        <script src="dev-info-app.js"></script>
+        <script src="js/dev-info-app.js"></script>
         <script>
                 const statusText = document.getElementById('statusText');
                 const connectButton = document.getElementById('connectButton');
@@ -33,8 +41,12 @@
                 const writeButton = document.getElementById('writeButton');
                 const writeCharacteristicSelect = document.getElementById('writeCharacteristicSelect');
                 const updateList = document.getElementById('updateList');
+                const selectRegionButton = document.getElementById('selectRegionButton');
+                const regionSelect = document.getElementById('regionSelect');
+                const regionSelectHeader = document.getElementById('regionSelectHeader');
                 //make serviceList global
-                let serviceList = []
+                let serviceList = [];
+                let connectedDevice = null;
 
                 if (isWebBluetoothEnabled()) {
                     statusText.textContent = 'Web Bluetooth is enabled.';
@@ -43,9 +55,17 @@
                     connectButton.disabled = true;
                 }
 
+                if (connectedDevice == null) {
+                    regionSelectHeader.textContent = 'Region select is disabled until connected to a device.';
+                    selectRegionButton.disabled = true;
+                } else {
+                    console.log('Connected to a device.');
+                }
+
                 connectButton.addEventListener('click', onButtonClick);
                 writeButton.addEventListener('click', writeToCharacteristic);
                 updateList.addEventListener('click', addCharOptions);
+                selectRegionButton.addEventListener('click', selectRegion)
         </script>
     </body>
 </html>

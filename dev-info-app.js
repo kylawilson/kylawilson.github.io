@@ -13,29 +13,52 @@ function displayCharacteristics() {
   serviceList.forEach(service => {
     const serviceDiv = document.createElement('div');
     serviceDiv.textContent = `Service: ${service.uuid}`;
-    //characteristicsDiv.appendChild(serviceDiv);
 
     service.characteristics.forEach(characteristic => {
         const charDiv = document.createElement('div');
         charDiv.textContent = `Characteristic: ${characteristic.uuid} ${characteristic.getSupportedProperties()}`;
-        //characteristicsDiv.appendChild(charDiv);
     });
   });
 }
 
 function mapCharToFunction(char) {
-  switch (char.uuid) {
+  console.log('CHAR UUID: ' + char.value);
+  switch (char.value) {
     case ('500a9c4e-2a71-4dc6-85fd-79cf6df702e1'):
-      char.textContent = 'SSID'
+      char.textContent = 'SSID';
       break;
     case ('500a9c4e-2a71-4dc6-85fd-79cf6df702e2'):
-      char.textContent = 'PASSWORD'
+      char.textContent = 'PASSWORD';
       break;
     case ('eeed3a6e-003a-464b-84b3-2e43a5ff7162'):
-      char.textContent = 'TX'
+      char.textContent = 'TX';
+      break;
+    case ('500a9c4e-2a71-4dc6-85fd-79cf6df702e4'):
+      char.textContent = 'REGION';
       break;
     default:
       console.log('UUID not available to be mapped')
+  }
+}
+
+function selectRegion() {
+  switch(regionSelect.value) {
+    case ('1'):
+      console.log('Selected: US/CANADA');
+      //write value to drive region char
+      break;
+    case ('2'):
+      console.log('Selected: JAPAN');  
+      //write value to drive region char
+      break;
+    case ('3'):
+      console.log('Selected: REST OF THE WORLD'); 
+      //write value to drive region char 
+      break;
+    default:
+      console.log(regionSelect.value);
+      console.log('Invalid region choice. No action taken');
+      break;
   }
 }
 
@@ -45,8 +68,8 @@ function addCharOptions() {
       if (characteristic.write) {
         const char = document.createElement('option');
         char.value = characteristic.uuid;
-        mapCharToFunction(char)
         char.textContent = characteristic.uuid;
+        mapCharToFunction(char);
         
         writeCharacteristicSelect.appendChild(char);
       }
@@ -165,9 +188,16 @@ class Characteristic {
   }
 
   testWrite(message) {
-    
     const bytes = this.encoder.encode(message);
-    this.characteristic.writeValue(bytes);
+    try{ this.characteristic.writeValue(bytes); 
+
+    } catch {
+      this.log("DOMException: GATT operation already in progress.")
+      return Promise.resolve()
+        .then(() => this.delayPromise(500))
+        .then(() => { characteristic.writeValue(value);});
+
+    }
     console.log("WROTE MESSAGE:     " + message);
   }
 
@@ -203,6 +233,8 @@ function onButtonClick() {
   console.log('with ' + JSON.stringify(options));
   navigator.bluetooth.requestDevice(options)
   .then(device => {
+    //save device for future access
+    connectedDevice = device;
     console.log('Connecting to GATT Server...');
     return device.gatt.connect();
   })
