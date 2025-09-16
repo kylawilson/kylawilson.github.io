@@ -168,6 +168,7 @@ class Characteristic {
   }
 
   test() {
+    /*
     if (this.read) {
       this.testRead();
     }
@@ -177,6 +178,10 @@ class Characteristic {
     if (this.notify) {
       this.testNotify();
     }
+      */
+    this.testRead();
+    this.testWrite("TEST");
+    this.testNotify();
   }
 
   testRead() {
@@ -256,7 +261,6 @@ function onButtonClick() {
           let curr_char = new Characteristic(characteristic)
           curr_serv.characteristics.push(curr_char)
           //getSupportedProperties is NOT supported in WebBLE 
-          //TODO: look into adding support
           console.log('>> Characteristic: ' + characteristic.uuid + ' ' +
               curr_char.getSupportedProperties(characteristic));
         });
