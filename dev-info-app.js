@@ -134,6 +134,7 @@ class Characteristic {
 
   getSupportedProperties() {
   let supportedProperties = [];
+  console.log(this.characteristic.properties)
   for (const p in this.characteristic.properties) {
     if (this.characteristic.properties[p] === true) {
       this.updateProps(p)
@@ -189,13 +190,13 @@ class Characteristic {
 
   testWrite(message) {
     const bytes = this.encoder.encode(message);
-    try{ this.characteristic.writeValue(bytes); 
+    try{ this.characteristic.writeValueWithoutResponse(bytes); 
 
     } catch {
       this.log("DOMException: GATT operation already in progress.")
       return Promise.resolve()
         .then(() => this.delayPromise(500))
-        .then(() => { characteristic.writeValue(value);});
+        .then(() => { characteristic.writeValueWithoutResponse(value);});
 
     }
     console.log("WROTE MESSAGE:     " + message);
@@ -254,6 +255,8 @@ function onButtonClick() {
         characteristics.forEach(characteristic => {
           let curr_char = new Characteristic(characteristic)
           curr_serv.characteristics.push(curr_char)
+          //getSupportedProperties is NOT supported in WebBLE 
+          //TODO: look into adding support
           console.log('>> Characteristic: ' + characteristic.uuid + ' ' +
               curr_char.getSupportedProperties(characteristic));
         });
