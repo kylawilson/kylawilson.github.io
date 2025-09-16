@@ -195,13 +195,13 @@ class Characteristic {
 
   testWrite(message) {
     const bytes = this.encoder.encode(message);
-    try{ this.characteristic.writeValueWithoutResponse(bytes); 
+    try{ this.characteristic.writeValue(bytes); 
 
     } catch {
       this.log("DOMException: GATT operation already in progress.")
       return Promise.resolve()
         .then(() => this.delayPromise(500))
-        .then(() => { characteristic.writeValueWithoutResponse(value);});
+        .then(() => { characteristic.writeValue(value);});
 
     }
     console.log("WROTE MESSAGE:     " + message);
