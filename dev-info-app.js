@@ -134,7 +134,7 @@ class Characteristic {
 
   getSupportedProperties() {
   let supportedProperties = [];
-  console.log(this.characteristic.properties)
+  console.log("In getSupportedProperties " + this.characteristic.properties)
   for (const p in this.characteristic.properties) {
     if (this.characteristic.properties[p] === true) {
       this.updateProps(p)
@@ -234,7 +234,6 @@ function onButtonClick() {
   optionalServices = ['eeed3a6e-003a-464b-84b3-2e43a5ff7160', '500a9c4e-2a71-4dc6-85fd-79cf6df702e0']
   options.optionalServices = optionalServices
   
-
   console.log('Requesting Bluetooth Device...');
   console.log('with ' + JSON.stringify(options));
   navigator.bluetooth.requestDevice(options)
