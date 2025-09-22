@@ -138,7 +138,7 @@ class Characteristic {
   let supportedProperties = [];
   console.log("In getSupportedProperties " + this.characteristic.properties)
 
-  for (p in this.characteristic.properties) {
+  for (const p of this.characteristic.properties) {
     /*
     if (this.characteristic.properties[p] === true) {
       this.updateProps(p)
