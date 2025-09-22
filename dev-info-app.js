@@ -127,19 +127,26 @@ class Characteristic {
     this.read = false;
     this.write = false;
     this.notify = false;
+    this.props = [];
     
     this.decoder = new TextDecoder();
     this.encoder = new TextEncoder();
   }
 
   getSupportedProperties() {
+    //update this to function with the webble changes
   let supportedProperties = [];
   console.log("In getSupportedProperties " + this.characteristic.properties)
+
   for (const p in this.characteristic.properties) {
+    /*
     if (this.characteristic.properties[p] === true) {
       this.updateProps(p)
       supportedProperties.push(p.toUpperCase());
     }
+    */
+    this.updateProps(p);
+    supportedProperties.push(p.toUpperCase());
   }
   return '[' + supportedProperties.join(', ') + ']';
   }
