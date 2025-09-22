@@ -136,7 +136,8 @@ class Characteristic {
   getSupportedProperties() {
     //update this to function with the webble changes
   let supportedProperties = [];
-  console.log("In getSupportedProperties " + this.characteristic.properties)
+  console.log("properties tyep: " + typeof this.characteristic.properties)
+  console.log("properties: " + this.characteristic.properties)
   //use the commeted out code for a non webble implementation
   //for (const p in this.characteristic.properties)
   for (const p of this.characteristic.properties) {
@@ -147,7 +148,6 @@ class Characteristic {
       supportedProperties.push(p.toUpperCase());
     }
     */
-    console.log("this is p: " + p);
     this.updateProps(p);
     supportedProperties.push(p.toUpperCase());
   }
@@ -155,7 +155,6 @@ class Characteristic {
   }
 
   updateProps(p) {
-    console.log("P in updateProps: " + p);
     switch (p) {
       case "read":
         this.read = true;
