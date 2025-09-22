@@ -137,15 +137,17 @@ class Characteristic {
     //update this to function with the webble changes
   let supportedProperties = [];
   console.log("In getSupportedProperties " + this.characteristic.properties)
-
+  //use the commeted out code for a non webble implementation
+  //for (const p in this.characteristic.properties)
   for (const p of this.characteristic.properties) {
+    //use the commented out lines below for a non-webble implementation
     /*
     if (this.characteristic.properties[p] === true) {
       this.updateProps(p)
       supportedProperties.push(p.toUpperCase());
     }
     */
-   console.log("this is p: " + p);
+    console.log("this is p: " + p);
     this.updateProps(p);
     supportedProperties.push(p.toUpperCase());
   }
@@ -177,7 +179,6 @@ class Characteristic {
   }
 
   test() {
-    /*
     if (this.read) {
       this.testRead();
     }
@@ -187,10 +188,9 @@ class Characteristic {
     if (this.notify) {
       this.testNotify();
     }
-      */
-    this.testRead();
-    this.testWrite("TEST");
-    this.testNotify();
+    // this.testRead();
+    // this.testWrite("TEST");
+    // this.testNotify();
   }
 
   testRead() {
