@@ -59,17 +59,23 @@ function mapCharToFunction(char) {
 }
 
 function selectRegion() {
+  let selectedCharacteristicUUID = '500a9c4e-2a71-4dc6-85fd-79cf6df702e4';
+  const characteristic = serviceList.flatMap(service => service.characteristics)
+            .find(char => char.uuid === selectedCharacteristicUUID);
   switch(regionSelect.value) {
     case ('1'):
       console.log('Selected: US/CANADA');
+      characteristic.testWrite(regionSelect.value)
       //write value to drive region char
       break;
     case ('2'):
       console.log('Selected: JAPAN');  
+      characteristic.testWrite(regionSelect.value)
       //write value to drive region char
       break;
     case ('3'):
       console.log('Selected: REST OF THE WORLD'); 
+      characteristic.testWrite(regionSelect.value)
       //write value to drive region char 
       break;
     default:
@@ -169,8 +175,6 @@ class Characteristic {
       }
     }
   }
-  //use the commeted out code for a non webble implementation
-  //for (const p in this.characteristic.properties)
   return '[' + supportedProperties.join(', ') + ']';
   }
 
@@ -207,9 +211,6 @@ class Characteristic {
     if (this.notify) {
       this.testNotify();
     }
-    // this.testRead();
-    // this.testWrite("TEST");
-    // this.testNotify();
   }
 
   testRead() {
