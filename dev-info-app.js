@@ -136,21 +136,24 @@ class Characteristic {
   getSupportedProperties() {
     //update this to function with the webble changes
   let supportedProperties = [];
-  console.log("properties tyep: " + typeof this.characteristic.properties)
-  console.log("properties: " + this.characteristic.properties)
-  //use the commeted out code for a non webble implementation
-  //for (const p in this.characteristic.properties)
-  for (const p of this.characteristic.properties) {
-    //use the commented out lines below for a non-webble implementation
-    /*
-    if (this.characteristic.properties[p] === true) {
-      this.updateProps(p)
+  let iterable = (typeof this.characteristic.properties[Symbol.iterator] === 'function')
+  if (iterable) {
+    //for the modified webble implementation
+    for (const p of this.characteristic.properties) {
+      this.updateProps(p);
       supportedProperties.push(p.toUpperCase());
     }
-    */
-    this.updateProps(p);
-    supportedProperties.push(p.toUpperCase());
+  } else {
+    //for the web bluetooth implementation
+    for (const p in this.characteristic.properties) {
+      if (this.characteristic.properties[p] === true) {
+        this.updateProps(p)
+        supportedProperties.push(p.toUpperCase());
+      }
+    }
   }
+  //use the commeted out code for a non webble implementation
+  //for (const p in this.characteristic.properties)
   return '[' + supportedProperties.join(', ') + ']';
   }
 
