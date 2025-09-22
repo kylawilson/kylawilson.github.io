@@ -8,6 +8,19 @@ function isWebBluetoothEnabled() {
     }
 }
 
+function isDeviceConnected() {
+  if (connectedDevice != null) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function updateRegionSelect() {
+  regionSelectHeader.textContent = "Select Region";
+  selectRegionButton.disabled = false;
+}
+
 function displayCharacteristics() {
   console.log("DISPLAY CHARACTERISTICS");
   serviceList.forEach(service => {
@@ -25,15 +38,19 @@ function mapCharToFunction(char) {
   console.log('CHAR UUID: ' + char.value);
   switch (char.value) {
     case ('500a9c4e-2a71-4dc6-85fd-79cf6df702e1'):
+      char.id = 'SSID';
       char.textContent = 'SSID';
       break;
     case ('500a9c4e-2a71-4dc6-85fd-79cf6df702e2'):
+      char.id = 'PASSWORD';  
       char.textContent = 'PASSWORD';
       break;
     case ('eeed3a6e-003a-464b-84b3-2e43a5ff7162'):
+      char.id = 'TX';
       char.textContent = 'TX';
       break;
     case ('500a9c4e-2a71-4dc6-85fd-79cf6df702e4'):
+      char.id = 'REGION';
       char.textContent = 'REGION';
       break;
     default:
@@ -250,7 +267,10 @@ function onButtonClick() {
   navigator.bluetooth.requestDevice(options)
   .then(device => {
     //save device for future access
-    connectedDevice = device;
+    //connectedDevice = device;
+    updateRegionSelect();
+    regionSelectHeader.textContent = null;
+    selectRegionButton.disabled = false;
     console.log('Connecting to GATT Server...');
     return device.gatt.connect();
   })

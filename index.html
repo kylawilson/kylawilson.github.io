@@ -13,7 +13,9 @@
         <div id="status">Status: <span id="statusText">Checking Web Bluetooth...</span></div>
         <button id="connectButton">Scan for Drive 2.0 BLE</button>
         <div id="characteristics"></div>
+        <!--
         <button id="updateList">Update Char Dropdown</button>
+        -->
         <div id="writeSection">
             <h2>Write to Characteristic</h2>
             <select id="writeCharacteristicSelect">
@@ -32,7 +34,7 @@
             <button id="selectRegionButton">Select Region</button>
         </div>
 
-        <script src="dev-info-app.js"></script>
+        <script src="js/dev-info-app.js"></script>
         <script>
                 const statusText = document.getElementById('statusText');
                 const connectButton = document.getElementById('connectButton');
@@ -40,7 +42,7 @@
                 const writeInput = document.getElementById('writeInput');
                 const writeButton = document.getElementById('writeButton');
                 const writeCharacteristicSelect = document.getElementById('writeCharacteristicSelect');
-                const updateList = document.getElementById('updateList');
+                //const updateList = document.getElementById('updateList');
                 const selectRegionButton = document.getElementById('selectRegionButton');
                 const regionSelect = document.getElementById('regionSelect');
                 const regionSelectHeader = document.getElementById('regionSelectHeader');
@@ -55,16 +57,14 @@
                     connectButton.disabled = true;
                 }
 
-                if (connectedDevice == null) {
+                if (!isDeviceConnected()) {
                     regionSelectHeader.textContent = 'Region select is disabled until connected to a device.';
                     selectRegionButton.disabled = true;
-                } else {
-                    console.log('Connected to a device.');
                 }
 
                 connectButton.addEventListener('click', onButtonClick);
                 writeButton.addEventListener('click', writeToCharacteristic);
-                updateList.addEventListener('click', addCharOptions);
+                //updateList.addEventListener('click', addCharOptions);
                 selectRegionButton.addEventListener('click', selectRegion)
         </script>
     </body>
