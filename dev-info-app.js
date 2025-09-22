@@ -152,6 +152,7 @@ class Characteristic {
   }
 
   updateProps(p) {
+    console.log("P in updateProps: " + p);
     switch (p) {
       case "read":
         this.read = true;
